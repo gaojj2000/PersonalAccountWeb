@@ -1,0 +1,80 @@
+# https://docs.djangoproject.com/zh-hans/3.2/ref/request-response/
+request：（请求对象）
+request.COOKIES               # dict
+request.FILES                 # MultiValueDict：上传的文件字典（必须由指定类型表单请求 <form method="POST" enctype="multipart/form-data"><input type="file" /></form> 才会包含数据，否则仅为空字典）
+request.GET                   # QueryDict：包含所有GET方法参数的类字典对象（GET.get(XXX) 方法只能获取表单中XXX值的列表中的最后一个，GET.getlist(XXX) 方法获取的才是完整的的列表！）
+request.META                  # dict：HTTP首部（request.META['REMOTE_ADDR'] 为远程地址）
+request.POST                  # QueryDict：包含所有POST方法参数的类字典对象（POST.get(XXX) 方法只能获取表单中XXX值的列表中的最后一个，POST.getlist(XXX) 方法获取的才是完整的的列表！）
+request.body                  # bytes：请求的主体，代表请求报文的主体
+request.data                  # dict：请求的数据部分
+request.content_params        # dict
+request.content_type          # str：text/plain（请求类型）
+request.csrf_processing_down  # bool：True
+request.encoding              # NoneType/str：提交的数据的编码方式（默认 None 代表 utf-8）
+request.environ               # dict：环境变量字典
+request.method                # str：请求方法（全大写）
+request.path                  # str：请求的路径，这里的路径是指相对路径，一个字符串，表示请求的路径组件（不含域名）
+request.path_info             # str：正常情况与request.path结果一致（不一致的情况：WSGI服务器设置了应用程序的假名）（官方更推荐）
+request.resolver_match        # ResolverMatch
+request.scheme                # str：http（或https，请求协议）
+request.session               # SessionStore
+request.upload_handlers       # list
+request.user                  # AnonymousUser/User：用户模型数据
+request.get_host()            # 服务器主机地址和端口
+request.get_port()            # 服务器端口
+request.get_raw_uri()         # 请求页面url所有信息，包含主机名，路径参数
+request.get_full_path()       # 请求页面完整路径和查询参数
+request.get_full_path_info()  # 请求页面完整路径和查询参数（不一致的情况：WSGI服务器设置了应用程序的假名）（官方更推荐）
+request.build_absolute_uri()  # 获取带域名的url绝对路径
+# 不常用方法
+request.read()
+request.readline()
+request.readlines()
+request.close()
+request.is_ajax()
+request.is_secure()
+request.get_signed_cookie()
+request.parse_file_upload()
+
+
+request.COOKIES：（仅前端验证）
+yzm：随机图片验证码
+last：上一次发送邮箱验证码的时间戳
+uname：用户名
+
+
+request.session：（服务器验证）
+yzm：随机邮箱验证码
+email：发送邮件验证码到的邮箱
+
+
+# https://docs.djangoproject.com/zh-hans/3.2/ref/contrib/auth/#django.contrib.auth.models.User
+request.user：（用户信息储存）【有默认值的是 django.contrib.auth.models.AnonymousUser 拥有的属性以及默认值】
+user.pk                        # 主键
+user.id = None                 # 用户id
+user.password                  # 用户密码
+user.last_login                # 上一次登陆时间
+user.is_superuser = False      # 用户是否是管理员
+user.username = ''             # 用户名
+user.last_name                 # 名字
+user.email                     # 电子邮箱
+user.is_staff = False          # 用户是否可以访问 /admin 页面
+user.is_active = False         # 账户是否激活
+user.date_joined               # 用户创建时间
+user.first_name                # 姓氏
+user.is_anonymous = True       # 是否匿名用户
+user.is_authenticated = False  # 是否登录
+user.groups                    # 用户分组
+user.user_permissions          # 用户权限
+user.check_password(password)  # 验证用户名和密码
+user.delete()                  # 删除用户
+user.get_all_permissions()     # 获得所有权限
+user.get_group_permissions()   # 获取组权限
+user.get_user_permissions()    # 获取用户权限
+user.get_username()            # 用户名（user.username）
+user.has_module_perms(app)     # 查看用户是否有 app 中的任意一个权限
+user.has_perm('app.perm')      # 查看用户是否有 app 中的权限
+user.has_perms(['app.perm'])   # 查看用户是否有 app 中指定的每个权限
+user.set_password(password)    # 设置经过哈希加密的密码
+user.set_unusable_password()   # 标记用户没有设置密码
+user.save()                    # 保存用户（在创建用户的时候会自动调用该方法）
